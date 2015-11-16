@@ -104,7 +104,7 @@ public class CropImage extends MonitoredActivity {
             fallback = Util.resolveColor(this, android.R.attr.colorPrimaryDark, Color.WHITE);
         buttonsFrame.setBackgroundColor(Util.resolveColor(this, R.attr.colorPrimaryDark, fallback));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            final float elevation = getResources().getDimension(R.dimen.buttons_frame_elevation);
+            final float elevation = getResources().getDimension(R.dimen.ci_buttons_frame_elevation);
             buttonsFrame.setElevation(elevation);
         }
 

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:padding="@dimen/content_inset"
+        android:padding="@dimen/ci_content_inset"
         android:text="@string/launch_crop_image" />
 
     <ImageView

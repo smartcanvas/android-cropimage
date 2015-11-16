@@ -25,7 +25,7 @@ import android.provider.MediaStore;
 /**
  * By default the following features are enabled, unless you override them by calling setters in the
  * builder:
- * <p/>
+ * <p>
  * <ul>
  * <li>Scale;</li>
  * <li>Scale up (if needed);</li>
@@ -45,6 +45,7 @@ public class CropImageIntentBuilder {
     private static final String EXTRA_SCALE = "scale";
     private static final String EXTRA_SCALE_UP_IF_NEEDED = "scaleUpIfNeeded";
     private static final String EXTRA_NO_FACE_DETECTION = "noFaceDetection";
+    private static final String EXTRA_SET_WALLPAPER = "setWallpaper";
     private static final String EXTRA_CIRCLE_CROP = "circleCrop";
     private static final String EXTRA_OUTPUT_FORMAT = "outputFormat";
     private static final String EXTRA_OUTPUT_QUALITY = "outputQuality";
@@ -59,6 +60,7 @@ public class CropImageIntentBuilder {
     private boolean circleCrop = false;
     private String outputFormat = null;
     private int outputQuality = 100;
+    private boolean setWallpaper = false;
     private Uri sourceImage;
     private Bitmap bitmap;
     private int outlineColor = HighlightView.DEFAULT_OUTLINE_COLOR;
@@ -133,6 +135,7 @@ public class CropImageIntentBuilder {
         intent.putExtra(EXTRA_OUTPUT_QUALITY, this.outputQuality);
         intent.putExtra(EXTRA_OUTLINE_COLOR, this.outlineColor);
         intent.putExtra(EXTRA_OUTLINE_CIRCLE_COLOR, this.outlineCircleColor);
+        intent.putExtra(EXTRA_SET_WALLPAPER, this.setWallpaper);
 
         if (this.bitmap != null) {
             intent.putExtra(EXTRA_BITMAP_DATA, this.bitmap);
@@ -169,6 +172,11 @@ public class CropImageIntentBuilder {
     public CropImageIntentBuilder setScale(final boolean scale) {
         this.scale = scale;
 
+        return this;
+    }
+
+    public CropImageIntentBuilder setWallpaper(final boolean setWallpaper) {
+        this.setWallpaper = setWallpaper;
         return this;
     }
 

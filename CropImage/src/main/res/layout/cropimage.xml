@@ -20,10 +20,10 @@
         android:layout_alignParentBottom="true"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/content_inset_half"
-        android:paddingLeft="@dimen/content_inset"
-        android:paddingRight="@dimen/content_inset"
-        android:paddingTop="@dimen/content_inset_half"
+        android:paddingBottom="@dimen/ci_content_inset_half"
+        android:paddingLeft="@dimen/ci_content_inset"
+        android:paddingRight="@dimen/ci_content_inset"
+        android:paddingTop="@dimen/ci_content_inset_half"
         android:weightSum="2"
         tools:ignore="UnusedAttribute">
 
