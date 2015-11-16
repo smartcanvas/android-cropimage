@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 // This class is used by CropImage to display a highlighted cropping rectangle
@@ -36,7 +37,7 @@ class HighlightView {
 
     @SuppressWarnings("unused")
     private static final String TAG = "HighlightView";
-    private View mContext;  // The View displaying the image.
+    private final View mContext;  // The View displaying the image.
 
     public static final int GROW_NONE = (1);
     private static final int GROW_LEFT_EDGE = (1 << 1);
@@ -48,9 +49,9 @@ class HighlightView {
     private final int mOutlineColor;
     private final int mOutlineCircleColor;
 
-    public HighlightView(View ctx) {
-        this(ctx, DEFAULT_OUTLINE_COLOR, DEFAULT_OUTLINE_CIRCLE_COLOR);
-    }
+//    public HighlightView(View ctx) {
+//        this(ctx, DEFAULT_OUTLINE_COLOR, DEFAULT_OUTLINE_CIRCLE_COLOR);
+//    }
 
     public HighlightView(View ctx, int outlineColor, int outlineCircleColor) {
         mContext = ctx;
@@ -61,11 +62,11 @@ class HighlightView {
     private void init() {
         android.content.res.Resources resources = mContext.getResources();
         mResizeDrawableWidth =
-                resources.getDrawable(R.drawable.camera_crop_width);
+                ContextCompat.getDrawable(mContext.getContext(), R.drawable.camera_crop_width);
         mResizeDrawableHeight =
-                resources.getDrawable(R.drawable.camera_crop_height);
+                ContextCompat.getDrawable(mContext.getContext(), R.drawable.camera_crop_height);
         mResizeDrawableDiagonal =
-                resources.getDrawable(R.drawable.indicator_autocrop);
+                ContextCompat.getDrawable(mContext.getContext(), R.drawable.indicator_autocrop);
     }
 
     boolean mIsFocused;

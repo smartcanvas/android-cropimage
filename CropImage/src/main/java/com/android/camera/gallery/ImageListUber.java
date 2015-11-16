@@ -47,7 +47,7 @@ public class ImageListUber implements IImageList {
     //     to.
     private long[] mSkipList;
     private int mSkipListSize;
-    private int[] mSkipCounts;
+    private final int[] mSkipCounts;
     private int mLastListIndex;
 
     public ImageListUber(IImageList[] sublist, int sort) {
@@ -269,7 +269,7 @@ public class ImageListUber implements IImageList {
         private int mOffset = -1;
         private final IImageList mList;
 
-        int mListIndex;
+        final int mListIndex;
         long mDateTaken;
         IImage mImage;
 

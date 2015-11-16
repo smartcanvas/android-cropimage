@@ -432,11 +432,11 @@ public class CropImage extends MonitoredActivity {
         super.onDestroy();
     }
 
-    private Runnable mRunFaceDetection = new Runnable() {
+    private final Runnable mRunFaceDetection = new Runnable() {
         @SuppressWarnings("hiding")
         float mScale = 1F;
         Matrix mImageMatrix;
-        FaceDetector.Face[] mFaces = new FaceDetector.Face[3];
+        final FaceDetector.Face[] mFaces = new FaceDetector.Face[3];
         int mNumFaces;
 
         // For each face, we create a HightlightView for it.
@@ -574,7 +574,7 @@ public class CropImage extends MonitoredActivity {
 }
 
 class CropImageView extends ImageViewTouchBase {
-    ArrayList<HighlightView> mHighlightViews = new ArrayList<HighlightView>();
+    final ArrayList<HighlightView> mHighlightViews = new ArrayList<HighlightView>();
     private HighlightView mMotionHighlightView = null;
     private float mLastX;
     private float mLastY;

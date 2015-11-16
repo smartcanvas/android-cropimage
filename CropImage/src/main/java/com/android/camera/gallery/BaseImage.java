@@ -39,18 +39,18 @@ import java.io.InputStream;
 public abstract class BaseImage implements IImage {
     private static final String TAG = "BaseImage";
     private static final int UNKNOWN_LENGTH = -1;
-    ContentResolver mContentResolver;
+    final ContentResolver mContentResolver;
 
     // Database field
-    Uri mUri;
-    long mId;
-    String mDataPath;
+    final Uri mUri;
+    final long mId;
+    final String mDataPath;
     final int mIndex;
-    private String mMimeType;
+    private final String mMimeType;
     private final long mDateTaken;
-    private String mTitle;
+    private final String mTitle;
 
-    private BaseImageList mContainer;
+    private final BaseImageList mContainer;
 
     private int mWidth = UNKNOWN_LENGTH;
     private int mHeight = UNKNOWN_LENGTH;
@@ -168,7 +168,7 @@ public abstract class BaseImage implements IImage {
         try {
             long id = mId;
             b = BitmapManager.instance().getThumbnail(mContentResolver, id,
-                    Images.Thumbnails.MICRO_KIND, null, false);
+                    Images.Thumbnails.MICRO_KIND, false);
         } catch (Throwable ex) {
             Log.e(TAG, "miniThumbBitmap got exception", ex);
             return null;

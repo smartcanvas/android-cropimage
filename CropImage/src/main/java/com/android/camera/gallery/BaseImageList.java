@@ -38,11 +38,11 @@ public abstract class BaseImageList implements IImageList {
             new LruCache<Integer, BaseImage>(CACHE_CAPACITY);
 
     ContentResolver mContentResolver;
-    private int mSort;
+    private final int mSort;
 
-    Uri mBaseUri;
+    final Uri mBaseUri;
     private Cursor mCursor;
-    String mBucketId;
+    final String mBucketId;
     private boolean mCursorDeactivated = false;
 
     BaseImageList(ContentResolver resolver, Uri uri, int sort,

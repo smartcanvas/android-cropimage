@@ -142,7 +142,7 @@ public class Util {
 
     // Whether we should recycle the input (unless the output is the input).
     public static final boolean RECYCLE_INPUT = true;
-    public static final boolean NO_RECYCLE_INPUT = false;
+//    public static final boolean NO_RECYCLE_INPUT = false;
 
     public static Bitmap transform(Matrix scaler,
                                    Bitmap source,

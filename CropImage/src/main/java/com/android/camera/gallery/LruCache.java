@@ -40,7 +40,7 @@ class LruCache<K, V> {
     }
 
     private static class Entry<K, V> extends WeakReference<V> {
-        K mKey;
+        final K mKey;
 
         public Entry(K key, V value, ReferenceQueue<V> queue) {
             super(value, queue);

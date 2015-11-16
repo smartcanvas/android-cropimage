@@ -471,11 +471,7 @@ public class ImageManager {
         String state = Environment.getExternalStorageState();
 
         if (Environment.MEDIA_MOUNTED.equals(state)) {
-            if (requireWriteAccess) {
-                return checkFsWritable();
-            } else {
-                return true;
-            }
+            return !requireWriteAccess || checkFsWritable();
         } else if (!requireWriteAccess
                 && Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             return true;

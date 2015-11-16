@@ -109,7 +109,7 @@ public class VideoObject extends BaseImage implements IImage {
         try {
             long id = mId;
             return BitmapManager.instance().getThumbnail(mContentResolver,
-                    id, Images.Thumbnails.MICRO_KIND, null, true);
+                    id, Images.Thumbnails.MICRO_KIND, true);
         } catch (Throwable ex) {
             Log.e(TAG, "miniThumbBitmap got exception", ex);
             return null;

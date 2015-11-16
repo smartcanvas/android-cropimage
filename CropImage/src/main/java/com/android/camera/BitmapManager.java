@@ -100,45 +100,41 @@ public class BitmapManager {
      */
     private synchronized boolean canThreadDecoding(Thread t) {
         ThreadStatus status = mThreadStatus.get(t);
-        if (status == null) {
-            // allow decoding by default
-            return true;
-        }
+        // allow decoding by default
+        return status == null || (status.mState != State.CANCEL);
 
-        return (status.mState != State.CANCEL);
     }
 
-    public synchronized void allowThreadDecoding(Thread t) {
-        getOrCreateThreadStatus(t).mState = State.ALLOW;
-    }
+//    public synchronized void allowThreadDecoding(Thread t) {
+//        getOrCreateThreadStatus(t).mState = State.ALLOW;
+//    }
+//
+//    public synchronized void cancelThreadDecoding(Thread t, ContentResolver cr) {
+//        ThreadStatus status = getOrCreateThreadStatus(t);
+//        status.mState = State.CANCEL;
+//        if (status.mOptions != null) {
+//            status.mOptions.requestCancelDecode();
+//        }
+//
+//        // Wake up threads in waiting list
+//        notifyAll();
+//
+//        // Since our cancel request can arrive MediaProvider earlier than getThumbnail request,
+//        // we use mThumbRequesting flag to make sure our request does cancel the request.
+//        try {
+//            synchronized (status) {
+//                while (status.mThumbRequesting) {
+//                    Images.Thumbnails.cancelThumbnailRequest(cr, -1, t.getId());
+//                    Video.Thumbnails.cancelThumbnailRequest(cr, -1, t.getId());
+//                    status.wait(200);
+//                }
+//            }
+//        } catch (InterruptedException ex) {
+//            // ignore it.
+//        }
+//    }
 
-    public synchronized void cancelThreadDecoding(Thread t, ContentResolver cr) {
-        ThreadStatus status = getOrCreateThreadStatus(t);
-        status.mState = State.CANCEL;
-        if (status.mOptions != null) {
-            status.mOptions.requestCancelDecode();
-        }
-
-        // Wake up threads in waiting list
-        notifyAll();
-
-        // Since our cancel request can arrive MediaProvider earlier than getThumbnail request,
-        // we use mThumbRequesting flag to make sure our request does cancel the request.
-        try {
-            synchronized (status) {
-                while (status.mThumbRequesting) {
-                    Images.Thumbnails.cancelThumbnailRequest(cr, -1, t.getId());
-                    Video.Thumbnails.cancelThumbnailRequest(cr, -1, t.getId());
-                    status.wait(200);
-                }
-            }
-        } catch (InterruptedException ex) {
-            // ignore it.
-        }
-    }
-
-    public Bitmap getThumbnail(ContentResolver cr, long origId, int kind,
-                               BitmapFactory.Options options, boolean isVideo) {
+    public Bitmap getThumbnail(ContentResolver cr, long origId, int kind, boolean isVideo) {
         Thread t = Thread.currentThread();
         ThreadStatus status = getOrCreateThreadStatus(t);
 

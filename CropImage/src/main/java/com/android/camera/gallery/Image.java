@@ -151,12 +151,12 @@ public class Image extends BaseImage implements IImage {
     };
 
     public Bitmap thumbBitmap(boolean rotateAsNeeded) {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inDither = false;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         bitmap = BitmapManager.instance().getThumbnail(mContentResolver, mId,
-                Images.Thumbnails.MINI_KIND, options, false);
+                Images.Thumbnails.MINI_KIND, false);
 
         if (bitmap != null && rotateAsNeeded) {
             bitmap = Util.rotate(bitmap, getDegreesRotated());
