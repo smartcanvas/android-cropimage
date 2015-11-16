@@ -97,6 +97,14 @@ public class CropImage extends MonitoredActivity {
 
         mImageView = (CropImageView) findViewById(R.id.image);
 
+        final View buttonsFrame = findViewById(R.id.buttonsFrame);
+        int fallback = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            fallback = Util.resolveColor(this, android.R.attr.colorAccent, 0);
+        buttonsFrame.setBackgroundColor(Util.resolveColor(this, R.attr.colorAccent, fallback));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            buttonsFrame.setElevation(getResources().getDimension(R.dimen.buttons_frame_elevation));
+
         // Work-around for devices incapable of using hardware-accelerated clipPath.
         // (android.view.GLES20Canvas.clipPath)
         //
@@ -129,7 +137,7 @@ public class CropImage extends MonitoredActivity {
             } else {
                 mSetWallpaper = extras.getBoolean("setWallpaper");
             }
-            mBitmap = (Bitmap) extras.getParcelable("data");
+            mBitmap = extras.getParcelable("data");
             mAspectX = extras.getInt("aspectX");
             mAspectY = extras.getInt("aspectY");
             mOutputX = extras.getInt("outputX");
@@ -159,9 +167,6 @@ public class CropImage extends MonitoredActivity {
             finish();
             return;
         }
-
-//        // Make UI fullscreen.
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         findViewById(R.id.discard).setOnClickListener(
                 new View.OnClickListener() {

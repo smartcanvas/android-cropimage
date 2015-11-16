@@ -18,7 +18,8 @@ package com.android.camera;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Intent;
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -27,9 +28,8 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.support.annotation.AttrRes;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.android.camera.gallery.IImage;
 
@@ -41,15 +41,19 @@ import java.io.IOException;
  * Collection of utility functions used in this package.
  */
 public class Util {
-    private static final String TAG = "Util";
-    public static final int DIRECTION_LEFT = 0;
-    public static final int DIRECTION_RIGHT = 1;
-    public static final int DIRECTION_UP = 2;
-    public static final int DIRECTION_DOWN = 3;
 
-    private static OnClickListener sNullOnClickListener;
+    private static final String TAG = "Util";
 
     private Util() {
+    }
+
+    public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
+        try {
+            return a.getColor(0, fallback);
+        } finally {
+            a.recycle();
+        }
     }
 
     // Rotates the bitmap by the specified degree.
@@ -332,25 +336,9 @@ public class Util {
         }
     }
 
-    public static synchronized OnClickListener getNullOnClickListener() {
-        if (sNullOnClickListener == null) {
-            sNullOnClickListener = new OnClickListener() {
-                public void onClick(View v) {
-                }
-            };
-        }
-        return sNullOnClickListener;
-    }
-
-    public static void Assert(boolean cond) {
-        if (!cond) {
-            throw new AssertionError();
-        }
-    }
-
     public static boolean equals(String a, String b) {
         // return true if both string are null or the content equals
-        return a == b || a.equals(b);
+        return (a == null && b == null) || (a != null && b != null && a.equals(b));
     }
 
     private static class BackgroundJob
@@ -411,15 +399,6 @@ public class Util {
         ProgressDialog dialog = ProgressDialog.show(
                 activity, title, message, true, false);
         new Thread(new BackgroundJob(activity, job, dialog, handler)).start();
-    }
-
-    // Returns an intent which is used for "set as" menu items.
-    public static Intent createSetAsIntent(IImage image) {
-        Uri u = image.fullSizeImageUri();
-        Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
-        intent.setDataAndType(u, image.getMimeType());
-        intent.putExtra("mimeType", image.getMimeType());
-        return intent;
     }
 
     // Returns Options that set the puregeable flag for Bitmap decode.

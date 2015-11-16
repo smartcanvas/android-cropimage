@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
 public class RotateBitmap {
+
     public static final String TAG = "RotateBitmap";
     private Bitmap mBitmap;
     private int mRotation;
@@ -27,11 +28,6 @@ public class RotateBitmap {
     public RotateBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
         mRotation = 0;
-    }
-
-    public RotateBitmap(Bitmap bitmap, int rotation) {
-        mBitmap = bitmap;
-        mRotation = rotation % 360;
     }
 
     public void setRotation(int rotation) {
@@ -93,4 +89,3 @@ public class RotateBitmap {
         }
     }
 }
-

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -9,33 +10,43 @@
         class="com.android.camera.CropImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/buttonsFrame"
         android:background="#55000000" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttonsFrame"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:fitsSystemWindows="true"
         android:orientation="horizontal"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingBottom="@dimen/content_inset_half"
+        android:paddingLeft="@dimen/content_inset"
+        android:paddingRight="@dimen/content_inset"
+        android:paddingTop="@dimen/content_inset_half"
+        android:weightSum="2"
+        tools:background="#03A9F4"
+        tools:elevation="@dimen/buttons_frame_elevation"
+        tools:ignore="UnusedAttribute">
 
         <Button
             android:id="@+id/save"
-            android:layout_width="100dip"
+            style="?buttonBarButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_gravity="left|start|center_vertical"
+            android:layout_weight="1"
             android:text="@string/crop_save_text" />
 
         <Button
             android:id="@+id/discard"
-            android:layout_width="100dip"
+            style="?buttonBarButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_gravity="right|end|center_vertical"
+            android:layout_weight="1"
             android:text="@string/crop_discard_text" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
