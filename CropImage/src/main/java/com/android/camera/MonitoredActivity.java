@@ -16,21 +16,23 @@
 
 package com.android.camera;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 
 public class MonitoredActivity extends NoSearchActivity {
 
-    private final ArrayList<LifeCycleListener> mListeners =
-            new ArrayList<LifeCycleListener>();
+    private final ArrayList<LifeCycleListener> mListeners = new ArrayList<>();
 
-    public static interface LifeCycleListener {
-        public void onActivityCreated(MonitoredActivity activity);
-        public void onActivityDestroyed(MonitoredActivity activity);
-        public void onActivityStarted(MonitoredActivity activity);
-        public void onActivityStopped(MonitoredActivity activity);
+    public interface LifeCycleListener {
+
+        void onActivityCreated(MonitoredActivity activity);
+
+        void onActivityDestroyed(MonitoredActivity activity);
+
+        void onActivityStarted(MonitoredActivity activity);
+
+        void onActivityStopped(MonitoredActivity activity);
     }
 
     public static class LifeCycleAdapter implements LifeCycleListener {

@@ -32,7 +32,7 @@ public class VideoList extends BaseImageList {
     @SuppressWarnings("unused")
     private static final String TAG = "BaseImageList";
 
-    private static final String[] VIDEO_PROJECTION = new String[] {
+    private static final String[] VIDEO_PROJECTION = new String[]{
             Media._ID,
             Media.DATA,
             Media.DATE_TAKEN,
@@ -74,7 +74,7 @@ public class VideoList extends BaseImageList {
     }
 
     public VideoList(ContentResolver resolver, Uri uri, int sort,
-            String bucketId) {
+                     String bucketId) {
         super(resolver, uri, sort, bucketId);
     }
 
@@ -83,9 +83,9 @@ public class VideoList extends BaseImageList {
                 .appendQueryParameter("distinct", "true").build();
         Cursor c = Images.Media.query(
                 mContentResolver, uri,
-                new String[] {
-                    Media.BUCKET_DISPLAY_NAME,
-                    Media.BUCKET_ID
+                new String[]{
+                        Media.BUCKET_DISPLAY_NAME,
+                        Media.BUCKET_ID
                 },
                 whereClause(), whereClauseArgs(), sortOrder());
         try {

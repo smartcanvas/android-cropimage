@@ -56,6 +56,7 @@ import java.util.concurrent.CountDownLatch;
  * The activity can crop specific region of interest from an image.
  */
 public class CropImage extends MonitoredActivity {
+
     private static final String TAG = "CropImage";
 
     // These are various options can be specified in the intent.
@@ -121,7 +122,7 @@ public class CropImage extends MonitoredActivity {
                 mAspectY = 1;
                 mOutputFormat = Bitmap.CompressFormat.PNG;
             }
-            mSaveUri = (Uri) extras.getParcelable(MediaStore.EXTRA_OUTPUT);
+            mSaveUri = extras.getParcelable(MediaStore.EXTRA_OUTPUT);
             if (mSaveUri != null) {
                 String outputFormatString = extras.getString("outputFormat");
                 if (outputFormatString != null) {
@@ -141,9 +142,7 @@ public class CropImage extends MonitoredActivity {
             mOutlineCircleColor = extras.getInt("outlineCircleColor", HighlightView.DEFAULT_OUTLINE_CIRCLE_COLOR);
             mScale = extras.getBoolean("scale", true);
             mScaleUp = extras.getBoolean("scaleUpIfNeeded", true);
-            mDoFaceDetection = extras.containsKey("noFaceDetection")
-                    ? !extras.getBoolean("noFaceDetection")
-                    : true;
+            mDoFaceDetection = !extras.containsKey("noFaceDetection") || !extras.getBoolean("noFaceDetection");
         }
 
         if (mBitmap == null) {
@@ -165,8 +164,8 @@ public class CropImage extends MonitoredActivity {
             return;
         }
 
-        // Make UI fullscreen.
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        // Make UI fullscreen.
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         findViewById(R.id.discard).setOnClickListener(
                 new View.OnClickListener() {
@@ -196,33 +195,33 @@ public class CropImage extends MonitoredActivity {
         Util.startBackgroundJob(this, null,
                 getResources().getString(R.string.runningFaceDetection),
                 new Runnable() {
-            public void run() {
-                final CountDownLatch latch = new CountDownLatch(1);
-                final Bitmap b = (mImage != null)
-                        ? mImage.fullSizeBitmap(IImage.UNCONSTRAINED,
-                        1024 * 1024)
-                        : mBitmap;
-                mHandler.post(new Runnable() {
                     public void run() {
-                        if (b != mBitmap && b != null) {
-                            mImageView.setImageBitmapResetBase(b, true);
-                            mBitmap.recycle();
-                            mBitmap = b;
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        final Bitmap b = (mImage != null)
+                                ? mImage.fullSizeBitmap(IImage.UNCONSTRAINED,
+                                1024 * 1024)
+                                : mBitmap;
+                        mHandler.post(new Runnable() {
+                            public void run() {
+                                if (b != mBitmap && b != null) {
+                                    mImageView.setImageBitmapResetBase(b, true);
+                                    mBitmap.recycle();
+                                    mBitmap = b;
+                                }
+                                if (mImageView.getScale() == 1F) {
+                                    mImageView.center(true, true);
+                                }
+                                latch.countDown();
+                            }
+                        });
+                        try {
+                            latch.await();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
                         }
-                        if (mImageView.getScale() == 1F) {
-                            mImageView.center(true, true);
-                        }
-                        latch.countDown();
+                        mRunFaceDetection.run();
                     }
-                });
-                try {
-                    latch.await();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                mRunFaceDetection.run();
-            }
-        }, mHandler);
+                }, mHandler);
     }
 
     private void onSaveClicked() {
@@ -275,8 +274,8 @@ public class CropImage extends MonitoredActivity {
             // third param here.
             croppedImage = Bitmap.createBitmap(width, height,
                     mCircleCrop
-                    ? Bitmap.Config.ARGB_8888
-                    : Bitmap.Config.RGB_565);
+                            ? Bitmap.Config.ARGB_8888
+                            : Bitmap.Config.RGB_565);
 
             Canvas canvas = new Canvas(croppedImage);
             Rect dstRect = new Rect(0, 0, width, height);
@@ -328,10 +327,10 @@ public class CropImage extends MonitoredActivity {
             Util.startBackgroundJob(this, null,
                     getResources().getString(msdId),
                     new Runnable() {
-                public void run() {
-                    saveOutput(b);
-                }
-            }, mHandler);
+                        public void run() {
+                            saveOutput(b);
+                        }
+                    }, mHandler);
         }
     }
 
@@ -390,7 +389,7 @@ public class CropImage extends MonitoredActivity {
                         mImage.getTitle(),
                         mImage.getDateTaken(),
                         null,    // TODO this null is going to cause us to lose
-                                 // the location (gps).
+                        // the location (gps).
                         directory.toString(), fileName + "-" + x + ".jpg",
                         croppedImage, null,
                         degree);
@@ -467,16 +466,16 @@ public class CropImage extends MonitoredActivity {
 
             if (faceRect.right > imageRect.right) {
                 faceRect.inset(faceRect.right - imageRect.right,
-                               faceRect.right - imageRect.right);
+                        faceRect.right - imageRect.right);
             }
 
             if (faceRect.bottom > imageRect.bottom) {
                 faceRect.inset(faceRect.bottom - imageRect.bottom,
-                               faceRect.bottom - imageRect.bottom);
+                        faceRect.bottom - imageRect.bottom);
             }
 
             hv.setup(mImageMatrix, imageRect, faceRect, mCircleCrop,
-                     mAspectX != 0 && mAspectY != 0);
+                    mAspectX != 0 && mAspectY != 0);
 
             mImageView.add(hv);
         }
@@ -507,13 +506,13 @@ public class CropImage extends MonitoredActivity {
 
             RectF cropRect = new RectF(x, y, x + cropWidth, y + cropHeight);
             hv.setup(mImageMatrix, imageRect, cropRect, mCircleCrop,
-                     mAspectX != 0 && mAspectY != 0);
+                    mAspectX != 0 && mAspectY != 0);
             mImageView.add(hv);
         }
 
         // Scale the image down for faster face detection.
         private Bitmap prepareBitmap() {
-            if (mBitmap == null ||  mBitmap.isRecycled()) {
+            if (mBitmap == null || mBitmap.isRecycled()) {
                 return null;
             }
 
@@ -678,8 +677,8 @@ class CropImageView extends ImageViewTouchBase {
                             mLastY = event.getY();
                             mMotionHighlightView.setMode(
                                     (edge == HighlightView.MOVE)
-                                    ? HighlightView.ModifyMode.Move
-                                    : HighlightView.ModifyMode.Grow);
+                                            ? HighlightView.ModifyMode.Move
+                                            : HighlightView.ModifyMode.Grow);
                             break;
                         }
                     }
@@ -786,8 +785,8 @@ class CropImageView extends ImageViewTouchBase {
         zoom = Math.max(1F, zoom);
 
         if ((Math.abs(zoom - getScale()) / zoom) > .1) {
-            float [] coordinates = new float[] {hv.mCropRect.centerX(),
-                                                hv.mCropRect.centerY()};
+            float[] coordinates = new float[]{hv.mCropRect.centerX(),
+                    hv.mCropRect.centerY()};
             getImageMatrix().mapPoints(coordinates);
             zoomTo(zoom, coordinates[0], coordinates[1], 300F);
         }

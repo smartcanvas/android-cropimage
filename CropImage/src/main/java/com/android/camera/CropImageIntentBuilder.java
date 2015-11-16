@@ -25,7 +25,7 @@ import android.provider.MediaStore;
 /**
  * By default the following features are enabled, unless you override them by calling setters in the
  * builder:
- *
+ * <p/>
  * <ul>
  * <li>Scale;</li>
  * <li>Scale up (if needed);</li>
@@ -73,12 +73,9 @@ public class CropImageIntentBuilder {
     /**
      * Constructor.
      *
-     * @param outputX
-     *        Output vertical size in pixels.
-     * @param outputY
-     *        Output horizontal size in pixels.
-     * @param saveUri
-     *        Output file URI.
+     * @param outputX Output vertical size in pixels.
+     * @param outputY Output horizontal size in pixels.
+     * @param saveUri Output file URI.
      * @since 1.0.1
      */
     public CropImageIntentBuilder(final int outputX, final int outputY, final Uri saveUri) {
@@ -88,20 +85,15 @@ public class CropImageIntentBuilder {
     /**
      * Constructor.
      *
-     * @param aspectX
-     *        Horizontal aspect ratio.
-     * @param aspectY
-     *        Vertical aspect ratio.
-     * @param outputX
-     *        Output vertical size in pixels.
-     * @param outputY
-     *        Output horizontal size in pixels.
-     * @param saveUri
-     *        Output file URI.
+     * @param aspectX Horizontal aspect ratio.
+     * @param aspectY Vertical aspect ratio.
+     * @param outputX Output vertical size in pixels.
+     * @param outputY Output horizontal size in pixels.
+     * @param saveUri Output file URI.
      * @since 1.0.1
      */
     public CropImageIntentBuilder(final int aspectX, final int aspectY, final int outputX,
-            final int outputY, final Uri saveUri) {
+                                  final int outputY, final Uri saveUri) {
         this.aspectX = aspectX;
         this.aspectY = aspectY;
         this.outputX = outputX;
@@ -112,8 +104,7 @@ public class CropImageIntentBuilder {
     /**
      * Builds the Intent.
      *
-     * @param context
-     *        The application context.
+     * @param context The application context.
      * @return The newly created intent.
      * @since 1.0.1
      */
@@ -158,8 +149,7 @@ public class CropImageIntentBuilder {
      * Set the quality for the output file when applicable. This is used for JPEG output
      * format for example.
      *
-     * @param outputQuality
-     *        The quality (0 is smallest file size, 100 is best quality)
+     * @param outputQuality The quality (0 is smallest file size, 100 is best quality)
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */
@@ -172,8 +162,7 @@ public class CropImageIntentBuilder {
     /**
      * Scales down the picture.
      *
-     * @param scale
-     *        Whether to scale down the image.
+     * @param scale Whether to scale down the image.
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */
@@ -186,8 +175,7 @@ public class CropImageIntentBuilder {
     /**
      * Whether to scale up the image if the cropped region is smaller than the output size.
      *
-     * @param scaleUpIfNeeded
-     *        Whether to scale up the image.
+     * @param scaleUpIfNeeded Whether to scale up the image.
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */
@@ -200,8 +188,7 @@ public class CropImageIntentBuilder {
     /**
      * Performs face detection before allowing users to crop the image.
      *
-     * @param doFaceDetection
-     *        Whether to perform face detection.
+     * @param doFaceDetection Whether to perform face detection.
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */
@@ -215,8 +202,7 @@ public class CropImageIntentBuilder {
      * Sets bitmap data to crop. Please note that this method overrides any source image set by
      * {@link #setSourceImage(Uri)}.
      *
-     * @param bitmap
-     *        The {@link Bitmap} to crop.
+     * @param bitmap The {@link Bitmap} to crop.
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */
@@ -229,8 +215,7 @@ public class CropImageIntentBuilder {
     /**
      * Sets the Uri of the image to crop. It must be accessible to the calling application/activity.
      *
-     * @param sourceImage
-     *        Uri of the image to crop.
+     * @param sourceImage Uri of the image to crop.
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */
@@ -243,8 +228,7 @@ public class CropImageIntentBuilder {
     /**
      * Whether to crop the image as circle
      *
-     * @param circleCrop
-     *        Whether to crop the image as circle.
+     * @param circleCrop Whether to crop the image as circle.
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */
@@ -257,8 +241,7 @@ public class CropImageIntentBuilder {
     /**
      * Set output format of the image to crop. If not set, JPEG will be used.
      *
-     * @param outputFormat
-     *        Output format of the image to crop, such as JPEG, PNG or WEBP.
+     * @param outputFormat Output format of the image to crop, such as JPEG, PNG or WEBP.
      * @return This Builder object to allow for chaining of calls to set methods.
      * @since 1.0.1
      */

@@ -16,9 +16,10 @@
 
 package com.android.camera;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
-public class NoSearchActivity extends Activity {
+public class NoSearchActivity extends AppCompatActivity {
+
     @Override
     public boolean onSearchRequested() {
         return false;
