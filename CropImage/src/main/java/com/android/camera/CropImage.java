@@ -39,8 +39,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.camera.gallery.IImage;
@@ -95,8 +93,6 @@ public class CropImage extends MonitoredActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         mContentResolver = getContentResolver();
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.cropimage);
 
         mImageView = (CropImageView) findViewById(R.id.image);
