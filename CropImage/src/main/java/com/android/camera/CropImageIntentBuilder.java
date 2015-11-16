@@ -70,7 +70,7 @@ public class CropImageIntentBuilder {
     private final int aspectY;
     private final int outputX;
     private final int outputY;
-    private final Uri saveUri;
+    private Uri saveUri;
 
     /**
      * Constructor.
@@ -177,6 +177,7 @@ public class CropImageIntentBuilder {
 
     public CropImageIntentBuilder setWallpaper(final boolean setWallpaper) {
         this.setWallpaper = setWallpaper;
+        this.saveUri = null;
         return this;
     }
 
