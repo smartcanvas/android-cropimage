@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.PointF;
@@ -100,10 +101,12 @@ public class CropImage extends MonitoredActivity {
         final View buttonsFrame = findViewById(R.id.buttonsFrame);
         int fallback = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            fallback = Util.resolveColor(this, android.R.attr.colorAccent, 0);
-        buttonsFrame.setBackgroundColor(Util.resolveColor(this, R.attr.colorAccent, fallback));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            buttonsFrame.setElevation(getResources().getDimension(R.dimen.buttons_frame_elevation));
+            fallback = Util.resolveColor(this, android.R.attr.colorPrimaryDark, Color.WHITE);
+        buttonsFrame.setBackgroundColor(Util.resolveColor(this, R.attr.colorPrimaryDark, fallback));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final float elevation = getResources().getDimension(R.dimen.buttons_frame_elevation);
+            buttonsFrame.setElevation(elevation);
+        }
 
         // Work-around for devices incapable of using hardware-accelerated clipPath.
         // (android.view.GLES20Canvas.clipPath)

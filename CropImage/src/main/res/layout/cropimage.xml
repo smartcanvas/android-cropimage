@@ -25,8 +25,6 @@
         android:paddingRight="@dimen/content_inset"
         android:paddingTop="@dimen/content_inset_half"
         android:weightSum="2"
-        tools:background="#03A9F4"
-        tools:elevation="@dimen/buttons_frame_elevation"
         tools:ignore="UnusedAttribute">
 
         <Button
@@ -36,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left|start|center_vertical"
             android:layout_weight="1"
-            android:text="@string/crop_save_text" />
+            android:text="@string/crop_save_text"
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/discard"
@@ -45,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|end|center_vertical"
             android:layout_weight="1"
-            android:text="@string/crop_discard_text" />
+            android:text="@string/crop_discard_text"
+            android:textColor="#fff" />
 
     </LinearLayout>
 
