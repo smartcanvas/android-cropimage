@@ -2,7 +2,7 @@ package com.android.camera.example;
 
 import android.content.Intent;
 
-public final class MediaStoreUtils {
+final class MediaStoreUtils {
 
     private MediaStoreUtils() {
     }

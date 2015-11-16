@@ -121,19 +121,19 @@ public class ImageManager {
     }
 
     // Location
-    public static enum DataLocation {
+    public enum DataLocation {
         NONE, INTERNAL, EXTERNAL, ALL
     }
 
     // Inclusion
-    public static final int INCLUDE_IMAGES = (1 << 0);
-    public static final int INCLUDE_VIDEOS = (1 << 1);
+    private static final int INCLUDE_IMAGES = (1);
+    private static final int INCLUDE_VIDEOS = (1 << 1);
 
     // Sort
     public static final int SORT_ASCENDING = 1;
     public static final int SORT_DESCENDING = 2;
 
-    public static final String CAMERA_IMAGE_BUCKET_NAME =
+    private static final String CAMERA_IMAGE_BUCKET_NAME =
             Environment.getExternalStorageDirectory().toString()
                     + "/DCIM/Camera";
     public static final String CAMERA_IMAGE_BUCKET_ID =
@@ -143,7 +143,7 @@ public class ImageManager {
      * Matches code in MediaProvider.computeBucketValues. Should be a common
      * function.
      */
-    public static String getBucketId(String path) {
+    private static String getBucketId(String path) {
         return String.valueOf(path.toLowerCase().hashCode());
     }
 
@@ -164,7 +164,7 @@ public class ImageManager {
     /**
      * @return true if the mimetype is an image mimetype.
      */
-    public static boolean isImageMimeType(String mimeType) {
+    private static boolean isImageMimeType(String mimeType) {
         return mimeType.startsWith("image/");
     }
 
@@ -249,7 +249,7 @@ public class ImageManager {
         return cr.insert(STORAGE_URI, values);
     }
 
-    public static int getExifOrientation(String filepath) {
+    private static int getExifOrientation(String filepath) {
         int degree = 0;
         ExifInterface exif = null;
         try {
@@ -280,8 +280,8 @@ public class ImageManager {
     }
 
     // This is the factory function to create an image list.
-    public static IImageList makeImageList(ContentResolver cr,
-                                           ImageListParam param) {
+    private static IImageList makeImageList(ContentResolver cr,
+                                            ImageListParam param) {
         DataLocation location = param.mLocation;
         int inclusion = param.mInclusion;
         int sort = param.mSort;
@@ -330,13 +330,11 @@ public class ImageManager {
         }
 
         if (l.size() == 1) {
-            BaseImageList list = l.get(0);
-            return list;
+            return l.get(0);
         }
 
-        ImageListUber uber = new ImageListUber(
+        return new ImageListUber(
                 l.toArray(new IImageList[l.size()]), sort);
-        return uber;
     }
 
     // This is a convenience function to create an image list from a Uri.
@@ -356,7 +354,7 @@ public class ImageManager {
         }
     }
 
-    static boolean isSingleImageMode(String uriString) {
+    private static boolean isSingleImageMode(String uriString) {
         return !uriString.startsWith(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString())
                 && !uriString.startsWith(
@@ -400,8 +398,8 @@ public class ImageManager {
         }
     }
 
-    public static ImageListParam getImageListParam(DataLocation location,
-                                                   int inclusion, int sort, String bucketId) {
+    private static ImageListParam getImageListParam(DataLocation location,
+                                                    int inclusion, int sort, String bucketId) {
         ImageListParam param = new ImageListParam();
         param.mLocation = location;
         param.mInclusion = inclusion;
@@ -410,20 +408,20 @@ public class ImageManager {
         return param;
     }
 
-    public static ImageListParam getSingleImageListParam(Uri uri) {
+    private static ImageListParam getSingleImageListParam(Uri uri) {
         ImageListParam param = new ImageListParam();
         param.mSingleImageUri = uri;
         return param;
     }
 
-    public static ImageListParam getEmptyImageListParam() {
+    private static ImageListParam getEmptyImageListParam() {
         ImageListParam param = new ImageListParam();
         param.mIsEmptyImageList = true;
         return param;
     }
 
-    public static IImageList makeImageList(ContentResolver cr,
-                                           DataLocation location, int inclusion, int sort, String bucketId) {
+    private static IImageList makeImageList(ContentResolver cr,
+                                            DataLocation location, int inclusion, int sort, String bucketId) {
         ImageListParam param = getImageListParam(location, inclusion, sort,
                 bucketId);
         return makeImageList(cr, param);
@@ -433,7 +431,7 @@ public class ImageManager {
         return makeImageList(null, getEmptyImageListParam());
     }
 
-    public static IImageList makeSingleImageList(ContentResolver cr, Uri uri) {
+    private static IImageList makeSingleImageList(ContentResolver cr, Uri uri) {
         return makeImageList(cr, getSingleImageListParam(uri));
     }
 
@@ -469,13 +467,12 @@ public class ImageManager {
         return hasStorage(true);
     }
 
-    public static boolean hasStorage(boolean requireWriteAccess) {
+    private static boolean hasStorage(boolean requireWriteAccess) {
         String state = Environment.getExternalStorageState();
 
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             if (requireWriteAccess) {
-                boolean writable = checkFsWritable();
-                return writable;
+                return checkFsWritable();
             } else {
                 return true;
             }

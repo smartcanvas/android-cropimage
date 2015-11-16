@@ -68,11 +68,11 @@ public class ImageList extends BaseImageList implements IImageList {
     private static final String WHERE_CLAUSE_WITH_BUCKET_ID =
             WHERE_CLAUSE + " AND " + Media.BUCKET_ID + " = ?";
 
-    protected String whereClause() {
+    private String whereClause() {
         return mBucketId == null ? WHERE_CLAUSE : WHERE_CLAUSE_WITH_BUCKET_ID;
     }
 
-    protected String[] whereClauseArgs() {
+    private String[] whereClauseArgs() {
         // TODO: Since mBucketId won't change, we should keep the array.
         if (mBucketId != null) {
             int count = ACCEPTABLE_IMAGE_TYPES.length;
@@ -86,13 +86,12 @@ public class ImageList extends BaseImageList implements IImageList {
 
     @Override
     protected Cursor createCursor() {
-        Cursor c = Media.query(
+        return Media.query(
                 mContentResolver, mBaseUri, IMAGE_PROJECTION,
                 whereClause(), whereClauseArgs(), sortOrder());
-        return c;
     }
 
-    static final String[] IMAGE_PROJECTION = new String[]{
+    private static final String[] IMAGE_PROJECTION = new String[]{
             Media._ID,
             Media.DATA,
             Media.DATE_TAKEN,

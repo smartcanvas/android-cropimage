@@ -111,9 +111,8 @@ public class VideoList extends BaseImageList {
 
     @Override
     protected Cursor createCursor() {
-        Cursor c = Images.Media.query(
+        return Images.Media.query(
                 mContentResolver, mBaseUri, VIDEO_PROJECTION,
                 whereClause(), whereClauseArgs(), sortOrder());
-        return c;
     }
 }

@@ -38,7 +38,7 @@ import java.util.WeakHashMap;
 public class BitmapManager {
     private static final String TAG = "BitmapManager";
 
-    private static enum State {CANCEL, ALLOW}
+    private enum State {CANCEL, ALLOW}
 
     private static class ThreadStatus {
         public State mState = State.ALLOW;
@@ -89,7 +89,7 @@ public class BitmapManager {
         getOrCreateThreadStatus(t).mOptions = options;
     }
 
-    synchronized void removeDecodingOptions(Thread t) {
+    private synchronized void removeDecodingOptions(Thread t) {
         ThreadStatus status = mThreadStatus.get(t);
         status.mOptions = null;
     }
@@ -98,15 +98,14 @@ public class BitmapManager {
      * The following three methods are used to keep track of which thread
      * is being disabled for bitmap decoding.
      */
-    public synchronized boolean canThreadDecoding(Thread t) {
+    private synchronized boolean canThreadDecoding(Thread t) {
         ThreadStatus status = mThreadStatus.get(t);
         if (status == null) {
             // allow decoding by default
             return true;
         }
 
-        boolean result = (status.mState != State.CANCEL);
-        return result;
+        return (status.mState != State.CANCEL);
     }
 
     public synchronized void allowThreadDecoding(Thread t) {

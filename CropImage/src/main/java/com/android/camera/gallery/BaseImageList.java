@@ -37,16 +37,16 @@ public abstract class BaseImageList implements IImageList {
     private final LruCache<Integer, BaseImage> mCache =
             new LruCache<Integer, BaseImage>(CACHE_CAPACITY);
 
-    protected ContentResolver mContentResolver;
-    protected int mSort;
+    ContentResolver mContentResolver;
+    private int mSort;
 
-    protected Uri mBaseUri;
-    protected Cursor mCursor;
-    protected String mBucketId;
-    protected boolean mCursorDeactivated = false;
+    Uri mBaseUri;
+    private Cursor mCursor;
+    String mBucketId;
+    private boolean mCursorDeactivated = false;
 
-    public BaseImageList(ContentResolver resolver, Uri uri, int sort,
-                         String bucketId) {
+    BaseImageList(ContentResolver resolver, Uri uri, int sort,
+                  String bucketId) {
         mSort = sort;
         mBaseUri = uri;
         mBucketId = bucketId;
@@ -153,13 +153,13 @@ public abstract class BaseImageList implements IImageList {
 
     protected abstract long getImageId(Cursor cursor);
 
-    protected void invalidateCursor() {
+    private void invalidateCursor() {
         if (mCursor == null) return;
         mCursor.deactivate();
         mCursorDeactivated = true;
     }
 
-    protected void invalidateCache() {
+    private void invalidateCache() {
         mCache.clear();
     }
 
@@ -221,7 +221,7 @@ public abstract class BaseImageList implements IImageList {
     // or descending, depending on the mSort variable.
     // The date is obtained from the "datetaken" column. But if it is null,
     // the "date_modified" column is used instead.
-    protected String sortOrder() {
+    String sortOrder() {
         String ascending =
                 (mSort == ImageManager.SORT_ASCENDING)
                         ? " ASC"

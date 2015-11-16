@@ -56,7 +56,7 @@ public class Image extends BaseImage implements IImage {
         return mRotation;
     }
 
-    protected void setDegreesRotated(int degrees) {
+    private void setDegreesRotated(int degrees) {
         if (mRotation == degrees) return;
         mRotation = degrees;
         ContentValues values = new ContentValues();
@@ -82,7 +82,7 @@ public class Image extends BaseImage implements IImage {
      * @param tag
      * @param value
      */
-    public void replaceExifTag(String tag, String value) {
+    private void replaceExifTag(String tag, String value) {
         if (mExif == null) {
             loadExifData();
         }

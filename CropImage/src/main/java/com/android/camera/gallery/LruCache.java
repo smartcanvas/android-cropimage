@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LruCache<K, V> {
+class LruCache<K, V> {
 
     private final HashMap<K, V> mLruMap;
     private final HashMap<K, Entry<K, V>> mWeakMap =

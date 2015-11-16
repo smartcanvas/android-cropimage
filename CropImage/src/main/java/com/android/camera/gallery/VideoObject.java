@@ -52,9 +52,8 @@ public class VideoObject extends BaseImage implements IImage {
 
     @Override
     public boolean equals(Object other) {
-        if (other == null || !(other instanceof VideoObject)) return false;
-        return fullSizeImageUri().equals(
-                ((VideoObject) other).fullSizeImageUri());
+        return !(other == null || !(other instanceof VideoObject)) &&
+                fullSizeImageUri().equals(((VideoObject) other).fullSizeImageUri());
     }
 
     @Override
@@ -72,9 +71,8 @@ public class VideoObject extends BaseImage implements IImage {
     @Override
     public InputStream fullSizeImageData() {
         try {
-            InputStream input = mContentResolver.openInputStream(
+            return mContentResolver.openInputStream(
                     fullSizeImageUri());
-            return input;
         } catch (IOException ex) {
             return null;
         }

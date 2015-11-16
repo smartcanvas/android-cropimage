@@ -432,7 +432,7 @@ public class CropImage extends MonitoredActivity {
         super.onDestroy();
     }
 
-    Runnable mRunFaceDetection = new Runnable() {
+    private Runnable mRunFaceDetection = new Runnable() {
         @SuppressWarnings("hiding")
         float mScale = 1F;
         Matrix mImageMatrix;
@@ -526,9 +526,8 @@ public class CropImage extends MonitoredActivity {
             }
             Matrix matrix = new Matrix();
             matrix.setScale(mScale, mScale);
-            Bitmap faceBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap
+            return Bitmap.createBitmap(mBitmap, 0, 0, mBitmap
                     .getWidth(), mBitmap.getHeight(), matrix, true);
-            return faceBitmap;
         }
 
         public void run() {
@@ -576,9 +575,10 @@ public class CropImage extends MonitoredActivity {
 
 class CropImageView extends ImageViewTouchBase {
     ArrayList<HighlightView> mHighlightViews = new ArrayList<HighlightView>();
-    HighlightView mMotionHighlightView = null;
-    float mLastX, mLastY;
-    int mMotionEdge;
+    private HighlightView mMotionHighlightView = null;
+    private float mLastX;
+    private float mLastY;
+    private int mMotionEdge;
 
     @Override
     protected void onLayout(boolean changed, int left, int top,
@@ -722,14 +722,12 @@ class CropImageView extends ImageViewTouchBase {
                     mLastX = event.getX();
                     mLastY = event.getY();
 
-                    if (true) {
-                        // This section of code is optional. It has some user
-                        // benefit in that moving the crop rectangle against
-                        // the edge of the screen causes scrolling but it means
-                        // that the crop rectangle is no longer fixed under
-                        // the user's finger.
-                        ensureVisible(mMotionHighlightView);
-                    }
+                    // This section of code is optional. It has some user
+                    // benefit in that moving the crop rectangle against
+                    // the edge of the screen causes scrolling but it means
+                    // that the crop rectangle is no longer fixed under
+                    // the user's finger.
+                    ensureVisible(mMotionHighlightView);
                 }
                 break;
         }

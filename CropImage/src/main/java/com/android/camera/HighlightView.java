@@ -36,13 +36,13 @@ class HighlightView {
 
     @SuppressWarnings("unused")
     private static final String TAG = "HighlightView";
-    View mContext;  // The View displaying the image.
+    private View mContext;  // The View displaying the image.
 
-    public static final int GROW_NONE = (1 << 0);
-    public static final int GROW_LEFT_EDGE = (1 << 1);
-    public static final int GROW_RIGHT_EDGE = (1 << 2);
-    public static final int GROW_TOP_EDGE = (1 << 3);
-    public static final int GROW_BOTTOM_EDGE = (1 << 4);
+    public static final int GROW_NONE = (1);
+    private static final int GROW_LEFT_EDGE = (1 << 1);
+    private static final int GROW_RIGHT_EDGE = (1 << 2);
+    private static final int GROW_TOP_EDGE = (1 << 3);
+    private static final int GROW_BOTTOM_EDGE = (1 << 4);
     public static final int MOVE = (1 << 5);
 
     private final int mOutlineColor;
@@ -69,7 +69,7 @@ class HighlightView {
     }
 
     boolean mIsFocused;
-    boolean mHidden;
+    private boolean mHidden;
 
     public boolean hasFocus() {
         return mIsFocused;
@@ -83,7 +83,7 @@ class HighlightView {
         mHidden = hidden;
     }
 
-    protected void draw(Canvas canvas) {
+    void draw(Canvas canvas) {
         if (mHidden) {
             return;
         }
@@ -274,7 +274,7 @@ class HighlightView {
     }
 
     // Grows the cropping rectange by (dx, dy) in image space.
-    void moveBy(float dx, float dy) {
+    private void moveBy(float dx, float dy) {
         Rect invalRect = new Rect(mDrawRect);
 
         mCropRect.offset(dx, dy);
@@ -295,7 +295,7 @@ class HighlightView {
     }
 
     // Grows the cropping rectange by (dx, dy) in image space.
-    void growBy(float dx, float dy) {
+    private void growBy(float dx, float dy) {
         if (mMaintainAspectRatio) {
             if (dx != 0) {
                 dy = dx / mInitialAspectRatio;
@@ -309,15 +309,13 @@ class HighlightView {
         // the cropping rectangle.
         RectF r = new RectF(mCropRect);
         if (dx > 0F && r.width() + 2 * dx > mImageRect.width()) {
-            float adjustment = (mImageRect.width() - r.width()) / 2F;
-            dx = adjustment;
+            dx = (mImageRect.width() - r.width()) / 2F;
             if (mMaintainAspectRatio) {
                 dy = dx / mInitialAspectRatio;
             }
         }
         if (dy > 0F && r.height() + 2 * dy > mImageRect.height()) {
-            float adjustment = (mImageRect.height() - r.height()) / 2F;
-            dy = adjustment;
+            dy = (mImageRect.height() - r.height()) / 2F;
             if (mMaintainAspectRatio) {
                 dx = dy * mInitialAspectRatio;
             }

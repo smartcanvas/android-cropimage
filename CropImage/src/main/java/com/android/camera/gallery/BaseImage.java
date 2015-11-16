@@ -39,25 +39,25 @@ import java.io.InputStream;
 public abstract class BaseImage implements IImage {
     private static final String TAG = "BaseImage";
     private static final int UNKNOWN_LENGTH = -1;
-    protected ContentResolver mContentResolver;
+    ContentResolver mContentResolver;
 
     // Database field
-    protected Uri mUri;
-    protected long mId;
-    protected String mDataPath;
-    protected final int mIndex;
-    protected String mMimeType;
+    Uri mUri;
+    long mId;
+    String mDataPath;
+    final int mIndex;
+    private String mMimeType;
     private final long mDateTaken;
     private String mTitle;
 
-    protected BaseImageList mContainer;
+    private BaseImageList mContainer;
 
     private int mWidth = UNKNOWN_LENGTH;
     private int mHeight = UNKNOWN_LENGTH;
 
-    protected BaseImage(BaseImageList container, ContentResolver cr,
-                        long id, int index, Uri uri, String dataPath, String mimeType,
-                        long dateTaken, String title) {
+    BaseImage(BaseImageList container, ContentResolver cr,
+              long id, int index, Uri uri, String dataPath, String mimeType,
+              long dateTaken, String title) {
         mContainer = container;
         mContentResolver = cr;
         mId = id;
@@ -75,8 +75,7 @@ public abstract class BaseImage implements IImage {
 
     @Override
     public boolean equals(Object other) {
-        if (other == null || !(other instanceof Image)) return false;
-        return mUri.equals(((Image) other).mUri);
+        return !(other == null || !(other instanceof Image)) && mUri.equals(((Image) other).mUri);
     }
 
     @Override
@@ -106,8 +105,7 @@ public abstract class BaseImage implements IImage {
 
     public InputStream fullSizeImageData() {
         try {
-            InputStream input = mContentResolver.openInputStream(mUri);
-            return input;
+            return mContentResolver.openInputStream(mUri);
         } catch (IOException ex) {
             return null;
         }
@@ -181,7 +179,7 @@ public abstract class BaseImage implements IImage {
         return b;
     }
 
-    protected void onRemove() {
+    void onRemove() {
     }
 
     @Override
